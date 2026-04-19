@@ -1,0 +1,502 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg: #07111f;
+  --bg-alt: #0c1728;
+  --panel: rgba(12, 23, 40, 0.82);
+  --panel-strong: rgba(15, 30, 50, 0.94);
+  --text: #edf4ff;
+  --muted: #a8bbd4;
+  --line: rgba(125, 249, 255, 0.14);
+  --accent: #7df9ff;
+  --accent-strong: #3dd9e6;
+  --accent-warm: #ffd166;
+  --shadow: 0 24px 80px rgba(1, 8, 18, 0.45);
+  --radius: 26px;
+  --max-width: 1160px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: "IBM Plex Sans", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(125, 249, 255, 0.09), transparent 26%),
+    radial-gradient(circle at top right, rgba(255, 209, 102, 0.1), transparent 28%),
+    linear-gradient(180deg, #07111f 0%, #081424 45%, #050c17 100%);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.site-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.ambient {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(80px);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.ambient-one {
+  top: 8%;
+  right: -10rem;
+  width: 20rem;
+  height: 20rem;
+  background: rgba(125, 249, 255, 0.32);
+}
+
+.ambient-two {
+  bottom: 12%;
+  left: -8rem;
+  width: 22rem;
+  height: 22rem;
+  background: rgba(255, 209, 102, 0.18);
+}
+
+.topbar,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  width: min(calc(100% - 2rem), var(--max-width));
+  margin: 0 auto;
+  padding: 1.4rem 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brand-mark {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(125, 249, 255, 0.18), rgba(255, 209, 102, 0.18));
+  border: 1px solid rgba(125, 249, 255, 0.2);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1rem;
+  color: var(--muted);
+}
+
+.nav a:hover,
+.contact-links a:hover {
+  color: var(--accent);
+}
+
+main {
+  width: min(calc(100% - 2rem), var(--max-width));
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(17, 29, 48, 0.88), rgba(8, 18, 31, 0.88));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.hero {
+  margin-top: 1rem;
+  padding: 3.6rem;
+  border-radius: calc(var(--radius) + 8px);
+  display: grid;
+  grid-template-columns: 1.4fr 0.95fr;
+  gap: 2rem;
+}
+
+.eyebrow,
+.project-eyebrow,
+.card-label,
+.post-tag {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.hero h1,
+.section-heading h2,
+.project-card h3,
+.timeline-card h3,
+.skill-card h3,
+.blog-card h3 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.hero h1 {
+  max-width: 12ch;
+  font-size: clamp(2.8rem, 5vw, 5.4rem);
+  line-height: 0.95;
+}
+
+.lead,
+.support,
+.project-summary,
+.timeline-description,
+.blog-card p,
+.contact-card p,
+.prose-card p {
+  color: var(--muted);
+  line-height: 1.72;
+  font-size: 1.02rem;
+}
+
+.lead {
+  margin-top: 1.4rem;
+}
+
+.support {
+  margin-top: 1rem;
+  max-width: 68ch;
+}
+
+.hero-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button-primary {
+  background: linear-gradient(135deg, var(--accent), #9afcff);
+  color: #05111d;
+}
+
+.button-primary:hover {
+  box-shadow: 0 12px 30px rgba(125, 249, 255, 0.28);
+}
+
+.button-secondary {
+  background: rgba(255, 209, 102, 0.12);
+  border-color: rgba(255, 209, 102, 0.35);
+  color: var(--text);
+}
+
+.button-ghost {
+  border-color: rgba(168, 187, 212, 0.22);
+  color: var(--muted);
+}
+
+.hero-card,
+.prose-card,
+.project-card,
+.timeline-card,
+.skill-card,
+.blog-card,
+.contact-card,
+.metric {
+  border-radius: var(--radius);
+}
+
+.hero-card {
+  padding: 2rem;
+  background: linear-gradient(180deg, rgba(8, 18, 31, 0.92), rgba(15, 30, 50, 0.96));
+  border: 1px solid rgba(255, 209, 102, 0.18);
+}
+
+.hero-points,
+.project-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  display: grid;
+  gap: 0.8rem;
+  line-height: 1.55;
+}
+
+.cert-block {
+  margin-top: 2rem;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.38rem 0.78rem;
+  border-radius: 999px;
+  background: rgba(125, 249, 255, 0.1);
+  border: 1px solid rgba(125, 249, 255, 0.2);
+  color: #defcff;
+  font-size: 0.9rem;
+}
+
+.chip-muted {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+.metrics {
+  margin-top: 1.4rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.metric {
+  padding: 1.35rem 1.2rem;
+}
+
+.metric strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem;
+  color: var(--accent-warm);
+}
+
+.metric span {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.section-grid,
+.section-stack {
+  margin-top: 5.5rem;
+}
+
+.section-heading {
+  max-width: 52rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-heading h2 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.04;
+}
+
+.prose-card,
+.contact-card {
+  padding: 2rem;
+}
+
+.prose-card {
+  max-width: 60rem;
+}
+
+.project-grid,
+.skill-grid,
+.blog-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.project-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.project-card,
+.blog-card {
+  padding: 1.8rem;
+}
+
+.timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.timeline-card {
+  padding: 1.8rem;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.timeline-header p,
+.timeline-header span {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+.skill-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.skill-card {
+  padding: 1.7rem;
+}
+
+.skill-card h3 {
+  margin-bottom: 1rem;
+}
+
+.blog-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.post-tag {
+  display: inline-flex;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(255, 209, 102, 0.12);
+  border: 1px solid rgba(255, 209, 102, 0.24);
+  color: var(--accent-warm);
+}
+
+.soon-label {
+  display: inline-block;
+  margin-top: 1.2rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.contact-links {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.4rem;
+  color: var(--muted);
+}
+
+@media (max-width: 1080px) {
+  .hero,
+  .project-grid,
+  .blog-grid,
+  .metrics,
+  .skill-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    padding: 2.6rem;
+  }
+
+  .project-grid article:last-child,
+  .blog-grid article:last-child {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 780px) {
+  .topbar {
+    padding-top: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    justify-content: flex-start;
+  }
+
+  .hero,
+  .project-grid,
+  .blog-grid,
+  .metrics,
+  .skill-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-grid article:last-child,
+  .blog-grid article:last-child {
+    grid-column: auto;
+  }
+
+  .hero {
+    padding: 2rem;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+    font-size: clamp(2.3rem, 11vw, 4.1rem);
+  }
+
+  .timeline-header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  main,
+  .topbar {
+    width: min(calc(100% - 1rem), var(--max-width));
+  }
+
+  .hero,
+  .project-card,
+  .timeline-card,
+  .skill-card,
+  .blog-card,
+  .prose-card,
+  .contact-card {
+    padding: 1.4rem;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

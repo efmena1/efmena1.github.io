@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="EM monogram">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7df9ff" />
+      <stop offset="100%" stop-color="#ffd166" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#07111f" />
+  <path
+    d="M28 92V36h44v10H40v13h28v10H40v23H28Zm48 0V36h12l12 20 12-20h12v56h-12V57l-12 19-12-19v35H76Z"
+    fill="url(#g)"
+  />
+</svg>
