@@ -1,390 +1,456 @@
-const navigation = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
-];
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { CONTENT } from "./content";
 
-const metrics = [
-  { value: "500+", label: "IIoT devices monitored across LATAM" },
-  { value: "100k+", label: "Ignition tags architected for scale" },
-  { value: "90%", label: "cellular data reduction via binary payloads" },
-  { value: "4", label: "countries served with multi-tenant deployments" },
-];
+/* ───────────────── icons ───────────────── */
 
-const featuredProjects = [
-  {
-    title: "Remote Monitoring System",
-    eyebrow: "Multi-tenant IIoT platform",
-    summary:
-      "Designed and led an Ignition-based remote monitoring platform that unified custom MQTT devices, embedded firmware, scalable tag architecture, and operator-friendly dashboards for decentralized fleet monitoring.",
-    impact: [
-      "Scaled the architecture to 500+ devices and over 100,000 tags across four countries.",
-      "Built a controlled OTA firmware workflow to update distributed equipment without site visits.",
-      "Structured the system for multi-tenant operations, making it easier to onboard customers while keeping performance consistent.",
-    ],
-    stack: ["Ignition", "Perspective", "ESP-IDF", "MQTT", "OTA"],
-  },
-  {
-    title: "Ignition Perspective 3D Module",
-    eyebrow: "Custom SDK extension",
-    summary:
-      "Built a custom Ignition Perspective module with the Ignition SDK and Three.js so teams could import GLB assets, interact with 3D scenes, and bind live industrial data into modern digital representations.",
-    impact: [
-      "Extended Perspective beyond standard components with real-time 3D visualization.",
-      "Enabled modern operator experiences for industrial and IT environments using familiar web tooling.",
-      "Created a path for richer contextual monitoring, layout visualization, and scenario-based interfaces.",
-    ],
-    stack: ["Ignition SDK", "Java", "Gradle", "React", "Three.js"],
-  },
-  {
-    title: "Enterprise Data Centre SCADA",
-    eyebrow: "Mission-critical infrastructure integration",
-    summary:
-      "Delivered SCADA integrations for geographically distributed data centre environments, combining industrial protocols, ISA-95 aligned architecture, and OT cybersecurity practices for enterprise-grade operations.",
-    impact: [
-      "Integrated critical systems such as UPS, HVAC, and generator monitoring into a unified view.",
-      "Applied Purdue Model thinking and server hardening practices for reliable industrial operations.",
-      "Supported decision-making with cleaner visibility across distributed sites and equipment types.",
-    ],
-    stack: ["Ignition", "Modbus", "BACnet", "SNMP", "ISA-95"],
-  },
-];
+const ArrowUpRight = ({ className = "arrow" }) => (
+  <svg className={className} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M3.5 10.5L10.5 3.5" />
+    <path d="M4.5 3.5H10.5V9.5" />
+  </svg>
+);
 
-const experience = [
-  {
-    role: "Engineering Leader",
-    company: "Xponential Technologies",
-    period: "Jun 2024 - Present",
-    description:
-      "Leading a multidisciplinary engineering team delivering X-Monitoring, a multi-tenant Ignition platform for remote asset monitoring across Latin America.",
-    highlights: [
-      "Owned the MQTT data architecture and Ignition tag model behind a 500+ device fleet.",
-      "Designed a custom binary payload strategy that reduced connectivity consumption by roughly 90%.",
-      "Created and led an internal Ignition certification program to raise delivery quality across the team.",
-    ],
-  },
-  {
-    role: "Senior Developer Engineer",
-    company: "Xponential Technologies",
-    period: "Mar 2022 - Jun 2024",
-    description:
-      "Worked across the full industrial stack, from embedded C firmware and industrial protocols to Perspective UIs and cloud-connected reporting flows.",
-    highlights: [
-      "Developed FreeRTOS-based firmware for proprietary monitoring hardware and field integrations.",
-      "Co-developed a real-time shrimp traceability platform with live GPS data and condition monitoring.",
-      "Built a custom Perspective 3D module to enable richer visual interaction inside Ignition.",
-    ],
-  },
-];
+const ArrowRight = ({ className = "arrow" }) => (
+  <svg className={className} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M3 7H11" />
+    <path d="M7.5 3.5L11 7L7.5 10.5" />
+  </svg>
+);
 
-const skillGroups = [
-  {
-    title: "Industrial Software",
-    items: [
-      "Ignition Gold Certified",
-      "Perspective",
-      "Vision",
-      "Tag Historian",
-      "Alarm Notification",
-      "MQTT Engine",
-      "Ignition SDK modules",
-    ],
-  },
-  {
-    title: "Embedded & IIoT",
-    items: [
-      "ESP32",
-      "ESP-IDF",
-      "FreeRTOS",
-      "Embedded C",
-      "OTA updates",
-      "Custom firmware",
-      "MQTT payload optimization",
-    ],
-  },
-  {
-    title: "Architecture & Integration",
-    items: [
-      "ISA-95 / Purdue Model",
-      "Multi-tenant SCADA",
-      "Modbus RTU/TCP",
-      "BACnet",
-      "SNMP",
-      "OPC UA",
-      "OT cybersecurity",
-    ],
-  },
-  {
-    title: "Software Delivery",
-    items: [
-      "React",
-      "JavaScript / TypeScript",
-      "Python / Jython",
-      "Java",
-      "Docker",
-      "GitHub Actions",
-      "AWS",
-      "AI-assisted engineering workflows",
-    ],
-  },
-];
+const CloseIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+    <path d="M2.5 2.5L9.5 9.5" />
+    <path d="M9.5 2.5L2.5 9.5" />
+  </svg>
+);
 
-const blogPosts = [
-  {
-    title: "Designing IIoT Systems That Scale Beyond the Pilot",
-    excerpt:
-      "Lessons from building multi-tenant Ignition architectures that stay maintainable as devices, tenants, and data volume grow.",
-    tag: "Architecture",
-  },
-  {
-    title: "Why Modern UX Matters in Industrial Applications",
-    excerpt:
-      "How Perspective, React thinking, and 3D interaction can make operational software easier to trust and faster to use.",
-    tag: "UX for Operations",
-  },
-  {
-    title: "Using AI Agents as a Force Multiplier in Engineering Work",
-    excerpt:
-      "How tools like Claude, Claude Code, and Codex fit into research, prototyping, debugging, and delivery without replacing engineering judgment.",
-    tag: "AI Workflows",
-  },
-];
+/* ───────────────── components ───────────────── */
 
-const certifications = [
-  "Ignition Gold Certified",
-  "CCNA",
-  "AWS Certified Cloud Practitioner",
-  "Full Stack Open",
-  "Foundations of Project Management",
-];
-
-function App() {
+function TopBar({ t, lang, onLangChange }) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   return (
-    <div className="site-shell">
-      <div className="ambient ambient-one" />
-      <div className="ambient ambient-two" />
-
-      <header className="topbar">
-        <a className="brand" href="#home">
-          <span className="brand-mark">EM</span>
+    <header className={`topbar${scrolled ? " is-scrolled" : ""}`}>
+      <div className="container topbar-inner">
+        <a href="#top" className="brand" aria-label={t.meta.brand}>
+          <span className="mark" aria-hidden="true">EM</span>
           <span>Edison Mena</span>
         </a>
 
-        <nav className="nav">
-          {navigation.map((item) => (
-            <a key={item.href} href={item.href}>
-              {item.label}
-            </a>
+        <nav className="nav-links" aria-label="Primary">
+          {t.nav.map((item) => (
+            <a key={item.id} href={`#${item.id}`}>{item.label}</a>
           ))}
         </nav>
-      </header>
 
-      <main>
-        <section className="hero panel" id="home">
-          <div className="hero-copy">
-            <p className="eyebrow">Ignition Gold-Certified | SCADA & IIoT Solutions Engineer</p>
-            <h1>Solving Real-World Problems</h1>
-            <p className="lead">
-              I am an Electronics, Control, and Automation Engineer focused on industrial digital
-              transformation. I design systems that connect embedded devices, industrial protocols,
-              Ignition applications, and modern interfaces into reliable solutions teams can operate
-              with confidence.
-            </p>
-            <p className="support">
-              My work spans multi-tenant IIoT platforms, custom Perspective experiences, ESP32
-              firmware, and the delivery practices needed to ship complex systems well. I also
-              actively use AI agents such as Claude, Claude Code, and Codex to accelerate research,
-              implementation, and engineering quality.
-            </p>
-
-            <div className="hero-actions">
-              <a className="button button-primary" href="/Edison_Mena_Resume_2026.pdf" target="_blank" rel="noreferrer">
-                View Resume
-              </a>
-              <a className="button button-secondary" href="#projects">
-                Explore Projects
-              </a>
-              <a className="button button-ghost" href="mailto:efmena1@hotmail.com">
-                Contact Me
-              </a>
-            </div>
+        <div className="topbar-right">
+          <span className="availability" title={t.meta.availability}>
+            <span>{t.meta.availability}</span>
+          </span>
+          <div className="lang-toggle" role="tablist" aria-label="Language">
+            <button
+              type="button"
+              className={lang === "en" ? "active" : ""}
+              onClick={() => onLangChange("en")}
+              aria-pressed={lang === "en"}
+            >EN</button>
+            <button
+              type="button"
+              className={lang === "es" ? "active" : ""}
+              onClick={() => onLangChange("es")}
+              aria-pressed={lang === "es"}
+            >ES</button>
           </div>
+        </div>
+      </div>
+    </header>
+  );
+}
 
-          <aside className="hero-card">
-            <p className="card-label">What I bring</p>
-            <ul className="hero-points">
-              <li>Deep Ignition expertise with product and delivery leadership experience</li>
-              <li>Embedded-to-cloud thinking across ESP32 firmware, MQTT, and SCADA applications</li>
-              <li>Strong alignment between technical architecture, operational usability, and business outcomes</li>
-            </ul>
+function Hero({ t }) {
+  const h = t.hero;
+  return (
+    <section className="section hero" id="top" data-screen-label="Hero">
+      <div className="container">
+        <div className="hero-eyebrow reveal">{h.eyebrow}</div>
 
-            <div className="cert-block">
-              <p className="card-label">Selected credentials</p>
-              <div className="chip-row">
-                {certifications.map((item) => (
-                  <span className="chip" key={item}>
-                    {item}
-                  </span>
-                ))}
-              </div>
+        <h1 className="reveal reveal-delay-1">
+          {h.headline.map((part, i) =>
+            part.style === "italic" ? (
+              <span key={i} className="italic">{part.text}</span>
+            ) : (
+              <React.Fragment key={i}>{part.text}</React.Fragment>
+            )
+          )}
+        </h1>
+
+        <div className="hero-row reveal reveal-delay-2">
+          <p className="hero-sub">{h.sub}</p>
+          <dl className="hero-meta">
+            <div>
+              <dt>{t.locale === "EN" ? "Role" : "Rol"}</dt>
+              <dd><span className="role">{t.meta.role}</span></dd>
             </div>
-          </aside>
-        </section>
+          </dl>
+        </div>
 
-        <section className="metrics">
-          {metrics.map((metric) => (
-            <article className="metric panel" key={metric.label}>
-              <strong>{metric.value}</strong>
-              <span>{metric.label}</span>
-            </article>
+        <div className="hero-actions reveal reveal-delay-3">
+          <a className="btn btn-primary" href={h.resumeHref} target="_blank" rel="noreferrer">
+            {h.ctaPrimary}
+            <ArrowUpRight />
+          </a>
+          <a className="btn btn-secondary" href="#work">
+            {h.ctaSecondary}
+            <ArrowRight />
+          </a>
+          <a className="btn btn-ghost" href="#contact">
+            {h.ctaGhost}
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Metrics({ t }) {
+  return (
+    <div className="container">
+      <div className="metrics reveal">
+        <div className="metrics-grid">
+          {t.metrics.map((m, i) => (
+            <div className="metric" key={i}>
+              <div className="metric-value">{m.value}</div>
+              <div className="metric-label">{m.label}</div>
+            </div>
           ))}
-        </section>
-
-        <section className="section-grid" id="about">
-          <div className="section-heading">
-            <p className="eyebrow">About</p>
-            <h2>Industrial software, built with systems thinking.</h2>
-          </div>
-          <div className="panel prose-card">
-            <p>
-              I specialize in turning fragmented infrastructure into cohesive digital platforms.
-              That means understanding the constraints of field hardware, the realities of
-              industrial protocols, the performance demands of SCADA systems, and the importance
-              of intuitive operator experiences.
-            </p>
-            <p>
-              My strongest domain is Ignition, especially Perspective-centric solutions where
-              architecture, UX, and maintainability all matter at once. I enjoy solving the
-              deeper integration problems underneath the interface, then shaping the final
-              experience so it feels modern, fast, and dependable.
-            </p>
-            <p>
-              I am particularly interested in roles where I can help teams build modern industrial
-              products, lead complex integrations, and use software, IIoT, and AI-assisted workflows
-              to create measurable operational value.
-            </p>
-          </div>
-        </section>
-
-        <section className="section-stack" id="projects">
-          <div className="section-heading">
-            <p className="eyebrow">Projects</p>
-            <h2>Selected work focused on scale, reliability, and modern industrial UX.</h2>
-          </div>
-          <div className="project-grid">
-            {featuredProjects.map((project) => (
-              <article className="panel project-card" key={project.title}>
-                <p className="project-eyebrow">{project.eyebrow}</p>
-                <h3>{project.title}</h3>
-                <p className="project-summary">{project.summary}</p>
-                <ul className="project-list">
-                  {project.impact.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <div className="chip-row">
-                  {project.stack.map((item) => (
-                    <span className="chip" key={item}>
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section-grid" id="experience">
-          <div className="section-heading">
-            <p className="eyebrow">Experience</p>
-            <h2>Hands-on engineering with leadership and product ownership.</h2>
-          </div>
-          <div className="timeline">
-            {experience.map((item) => (
-              <article className="panel timeline-card" key={`${item.role}-${item.period}`}>
-                <div className="timeline-header">
-                  <div>
-                    <h3>{item.role}</h3>
-                    <p>{item.company}</p>
-                  </div>
-                  <span>{item.period}</span>
-                </div>
-                <p className="timeline-description">{item.description}</p>
-                <ul className="project-list">
-                  {item.highlights.map((highlight) => (
-                    <li key={highlight}>{highlight}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section-grid" id="skills">
-          <div className="section-heading">
-            <p className="eyebrow">Skills</p>
-            <h2>A blend of industrial engineering depth and modern software delivery.</h2>
-          </div>
-          <div className="skill-grid">
-            {skillGroups.map((group) => (
-              <article className="panel skill-card" key={group.title}>
-                <h3>{group.title}</h3>
-                <div className="chip-row">
-                  {group.items.map((item) => (
-                    <span className="chip chip-muted" key={item}>
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section-grid" id="blog">
-          <div className="section-heading">
-            <p className="eyebrow">Blog</p>
-            <h2>Topics I am writing about as I document my work and lessons learned.</h2>
-          </div>
-          <div className="blog-grid">
-            {blogPosts.map((post) => (
-              <article className="panel blog-card" key={post.title}>
-                <span className="post-tag">{post.tag}</span>
-                <h3>{post.title}</h3>
-                <p>{post.excerpt}</p>
-                <span className="soon-label">Publishing soon</span>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section-grid" id="contact">
-          <div className="section-heading">
-            <p className="eyebrow">Contact</p>
-            <h2>Open to ambitious industrial software and digital transformation work.</h2>
-          </div>
-          <div className="panel contact-card">
-            <p>
-              If you are hiring for industrial software, IIoT, SCADA, embedded integration, or
-              product-minded engineering leadership, I would be glad to connect.
-            </p>
-            <div className="contact-links">
-              <a href="mailto:efmena1@hotmail.com">efmena1@hotmail.com</a>
-              <a href="https://github.com/efmena1" target="_blank" rel="noreferrer">
-                github.com/efmena1
-              </a>
-              <a href="https://linkedin.com/in/efmena1" target="_blank" rel="noreferrer">
-                linkedin.com/in/efmena1
-              </a>
-            </div>
-          </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default App;
+function About({ t }) {
+  const a = t.about;
+  return (
+    <section className="section" id="about" data-screen-label="About">
+      <div className="container">
+        <p className="kicker reveal">{a.kicker}</p>
+        <div className="about-grid">
+          <div className="reveal reveal-delay-1">
+            <h2 className="section-title">{a.title}</h2>
+          </div>
+          <div className="about-text reveal reveal-delay-2">
+            <p className="about-lead">{a.lead}</p>
+            {a.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+
+            <dl className="about-facts">
+              {a.facts.map((f, i) => (
+                <div className="about-fact" key={i}>
+                  <dt>{f.k}</dt>
+                  <dd>{f.v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Work({ t, onOpen }) {
+  const w = t.work;
+  return (
+    <section className="section" id="work" data-screen-label="Work">
+      <div className="container">
+        <p className="kicker reveal">{w.kicker}</p>
+        <div className="section-header">
+          <h2 className="section-title reveal reveal-delay-1">{w.title}</h2>
+        </div>
+
+        <div className="work-list">
+          {w.projects.map((p, i) => (
+            <button
+              type="button"
+              className={`work-item reveal reveal-delay-${Math.min(i + 1, 4)}`}
+              key={p.id}
+              onClick={() => onOpen(p)}
+              aria-label={`${p.title} — ${w.cta}`}
+            >
+              <div className="work-head">
+                <span className="work-year">{p.year}</span>
+                <span className="work-fab" aria-hidden="true">
+                  <ArrowUpRight />
+                </span>
+              </div>
+              <p className="work-eyebrow">{p.eyebrow}</p>
+              <h3 className="work-title">{p.title}</h3>
+              <p className="work-summary">{p.summary}</p>
+              <div className="work-stack">
+                {p.stack.map((s, j) => (
+                  <span key={j} className="chip">{s}</span>
+                ))}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Experience({ t }) {
+  const e = t.experience;
+  return (
+    <section className="section" id="experience" data-screen-label="Experience">
+      <div className="container">
+        <p className="kicker reveal">{e.kicker}</p>
+        <div className="section-header">
+          <h2 className="section-title reveal reveal-delay-1">{e.title}</h2>
+        </div>
+
+        <div className="timeline">
+          {e.roles.map((r, i) => (
+            <article className="role-item reveal" key={i}>
+              <div className="role-aside">
+                <div className="role-period">{r.period}</div>
+                <div className="role-location">{r.location}</div>
+              </div>
+              <div className="role-body">
+                <h3>{r.role}</h3>
+                <p className="role-company">{r.company}</p>
+                <p className="role-description">{r.description}</p>
+                <ul className="role-highlights">
+                  {r.highlights.map((h, j) => <li key={j}>{h}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Skills({ t }) {
+  const s = t.skills;
+  return (
+    <section className="section" id="skills" data-screen-label="Skills">
+      <div className="container">
+        <p className="kicker reveal">{s.kicker}</p>
+        <div className="section-header">
+          <h2 className="section-title reveal reveal-delay-1">{s.title}</h2>
+        </div>
+
+        <div className="skills-grid reveal">
+          {s.groups.map((g, i) => (
+            <div className="skill-card" key={i}>
+              <h3>{g.title}</h3>
+              <div className="skill-list">
+                {g.items.map((it, j) => (
+                  <span key={j} className="chip">{it}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="certs reveal">
+          <p className="certs-label">{s.certsLabel}</p>
+          <div className="certs-list">
+            {s.certs.map((c, i) => (
+              <span key={i} className="chip chip-accent">{c}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact({ t }) {
+  const c = t.contact;
+  return (
+    <section className="section contact" id="contact" data-screen-label="Contact">
+      <div className="container">
+        <p className="kicker reveal">{c.kicker}</p>
+        <div className="contact-inner">
+          <div className="reveal reveal-delay-1">
+            <h2 className="contact-title">{c.title}</h2>
+            <p className="contact-lead">{c.lead}</p>
+            <a className="contact-cta" href={`mailto:${c.email}`}>
+              {c.email}
+              <span className="fab-icon" aria-hidden="true"><ArrowUpRight /></span>
+            </a>
+          </div>
+
+          <div className="contact-links reveal reveal-delay-2">
+            {c.links.map((l, i) => (
+              <a className="contact-link" key={i} href={l.href} target={l.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+                <span className="label">{l.label}</span>
+                <span className="value">{l.value}</span>
+                <ArrowUpRight className="arrow" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer({ t }) {
+  return (
+    <div className="container">
+      <footer className="footer">
+        <span>{t.footer.colophon}</span>
+        <a href="#top">{t.footer.backToTop} ↑</a>
+      </footer>
+    </div>
+  );
+}
+
+/* ───────────────── modal ───────────────── */
+
+function ProjectModal({ project, t, onClose }) {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    document.body.classList.add("modal-open");
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    if (closeRef.current) closeRef.current.focus();
+    return () => {
+      document.body.classList.remove("modal-open");
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
+  if (!project) return null;
+  const m = t.modal;
+
+  return (
+    <div className="modal-backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby={`modal-title-${project.id}`}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-head">
+          <span className="year">{project.year} · {project.eyebrow}</span>
+          <button ref={closeRef} className="modal-close" onClick={onClose}>
+            <CloseIcon />
+            <span>{m.close}</span>
+          </button>
+        </div>
+
+        <div className="modal-body">
+          <p className="modal-eyebrow">{project.eyebrow}</p>
+          <h2 className="modal-title" id={`modal-title-${project.id}`}>{project.title}</h2>
+          <p className="modal-summary">{project.summary}</p>
+
+          <dl className="modal-section">
+            <dt>{m.context}</dt>
+            <dd><p>{project.context}</p></dd>
+          </dl>
+
+          <dl className="modal-section">
+            <dt>{m.role}</dt>
+            <dd><p>{project.role}</p></dd>
+          </dl>
+
+          <dl className="modal-section">
+            <dt>{m.impact}</dt>
+            <dd>
+              <ul className="modal-impact">
+                {project.impact.map((it, i) => <li key={i}>{it}</li>)}
+              </ul>
+            </dd>
+          </dl>
+
+          <dl className="modal-section">
+            <dt>{m.stack}</dt>
+            <dd>
+              <div className="work-stack">
+                {project.stack.map((s, i) => (
+                  <span key={i} className={`chip${i === 0 ? " chip-accent" : ""}`}>{s}</span>
+                ))}
+              </div>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ───────────────── app shell ───────────────── */
+
+function useReveal(deps) {
+  useEffect(() => {
+    const els = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
+    );
+    els.forEach((el) => { el.classList.remove("is-visible"); io.observe(el); });
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+}
+
+export default function App() {
+  const [lang, setLang] = useState(() => {
+    try {
+      const saved = localStorage.getItem("em-lang");
+      if (saved === "en" || saved === "es") return saved;
+    } catch (e) { /* ignore */ }
+    if (typeof navigator !== "undefined" && navigator.language && navigator.language.toLowerCase().startsWith("es")) {
+      return "es";
+    }
+    return "en";
+  });
+
+  const [openProject, setOpenProject] = useState(null);
+  const t = CONTENT[lang];
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    try { localStorage.setItem("em-lang", lang); } catch (e) { /* ignore */ }
+  }, [lang]);
+
+  const handleOpen = useCallback((p) => setOpenProject(p), []);
+  const handleClose = useCallback(() => setOpenProject(null), []);
+
+  // Re-attach reveal observer when language changes (DOM nodes swap)
+  useReveal([lang]);
+
+  return (
+    <>
+      <TopBar t={t} lang={lang} onLangChange={setLang} />
+      <main>
+        <Hero t={t} />
+        <Metrics t={t} />
+        <About t={t} />
+        <Work t={t} onOpen={handleOpen} />
+        <Experience t={t} />
+        <Skills t={t} />
+        <Contact t={t} />
+        <Footer t={t} />
+      </main>
+      {openProject && <ProjectModal project={openProject} t={t} onClose={handleClose} />}
+    </>
+  );
+}
