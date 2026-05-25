@@ -1,4 +1,115 @@
 // Bilingual portfolio content (ES / EN)
+
+/* ───────────────── architecture diagrams (shared EN/ES) ───────────────── */
+
+const DIAGRAM_RMS = `<svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="rms-d"><title id="rms-d">Remote Monitoring System: ESP32 devices stream MQTT data through a broker to a multi-tenant Ignition gateway, surfaced in Perspective.</title>
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--md-on-surface-variant)"/></marker></defs>
+<g font-family="ui-sans-serif,system-ui,sans-serif" font-size="11">
+<rect x="10" y="10" width="170" height="106" rx="14" fill="none" stroke="var(--md-outline-variant)" stroke-dasharray="3 4"/>
+<text x="22" y="28" font-size="9" font-weight="600" letter-spacing="0.12em" fill="var(--md-on-surface-variant)">TENANT A</text>
+<rect x="22" y="38" width="146" height="30" rx="8" fill="var(--md-primary-container)"/>
+<text x="36" y="58" font-weight="500" fill="var(--md-on-primary-container)">ESP32 · Pump</text>
+<rect x="22" y="76" width="146" height="30" rx="8" fill="var(--md-primary-container)"/>
+<text x="36" y="96" font-weight="500" fill="var(--md-on-primary-container)">ESP32 · Sensor</text>
+<rect x="10" y="134" width="170" height="106" rx="14" fill="none" stroke="var(--md-outline-variant)" stroke-dasharray="3 4"/>
+<text x="22" y="152" font-size="9" font-weight="600" letter-spacing="0.12em" fill="var(--md-on-surface-variant)">TENANT B</text>
+<rect x="22" y="162" width="146" height="30" rx="8" fill="var(--md-tertiary-container)"/>
+<text x="36" y="182" font-weight="500" fill="var(--md-on-tertiary-container)">ESP32 · Genset</text>
+<rect x="22" y="200" width="146" height="30" rx="8" fill="var(--md-tertiary-container)"/>
+<text x="36" y="220" font-weight="500" fill="var(--md-on-tertiary-container)">ESP32 · HVAC</text>
+<g stroke="var(--md-on-surface-variant)" stroke-width="1.2" fill="none">
+<path d="M180 53 C220 53 240 125 286 125" marker-end="url(#ar1)"/>
+<path d="M180 91 C220 91 240 125 286 125" marker-end="url(#ar1)"/>
+<path d="M180 177 C220 177 240 125 286 125" marker-end="url(#ar1)"/>
+<path d="M180 215 C220 215 240 125 286 125" marker-end="url(#ar1)"/>
+</g>
+<text x="200" y="46" fill="var(--md-on-surface-variant)" font-size="10">MQTT · TLS</text>
+<text x="200" y="238" fill="var(--md-on-surface-variant)" font-size="10">binary payload</text>
+<rect x="286" y="95" width="112" height="60" rx="12" fill="var(--md-surface-container-high)" stroke="var(--md-outline-variant)"/>
+<text x="342" y="121" text-anchor="middle" font-size="12" font-weight="600" fill="var(--md-on-surface)">MQTT</text>
+<text x="342" y="138" text-anchor="middle" font-size="10" fill="var(--md-on-surface-variant)">Broker</text>
+<path d="M398 125 L470 125" stroke="var(--md-on-surface-variant)" stroke-width="1.5" fill="none" marker-end="url(#ar1)"/>
+<rect x="470" y="80" width="168" height="92" rx="14" fill="var(--md-primary)"/>
+<text x="554" y="114" text-anchor="middle" font-size="13" font-weight="600" fill="var(--md-on-primary)">Ignition Gateway</text>
+<text x="554" y="134" text-anchor="middle" font-size="10" fill="var(--md-on-primary)" opacity="0.86">100k+ tags · multi-tenant</text>
+<text x="554" y="152" text-anchor="middle" font-size="10" fill="var(--md-on-primary)" opacity="0.7">OTA · binary payloads</text>
+<path d="M638 125 L694 125" stroke="var(--md-on-surface-variant)" stroke-width="1.5" fill="none" marker-end="url(#ar1)"/>
+<rect x="694" y="82" width="90" height="88" rx="10" fill="var(--md-surface-container)" stroke="var(--md-outline-variant)"/>
+<rect x="704" y="92" width="70" height="5" rx="2" fill="var(--md-primary)"/>
+<rect x="704" y="104" width="70" height="20" rx="4" fill="var(--md-primary-container)"/>
+<rect x="704" y="130" width="32" height="32" rx="4" fill="var(--md-tertiary-container)"/>
+<rect x="742" y="130" width="32" height="32" rx="4" fill="var(--md-secondary-container)"/>
+<text x="739" y="182" text-anchor="middle" font-size="10" fill="var(--md-on-surface-variant)">Perspective</text>
+</g></svg>`;
+
+const DIAGRAM_P3D = `<svg viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="p3d-d"><title id="p3d-d">Perspective 3D module: Ignition tags bind to a Three.js scene via a custom Java SDK module and a React runtime.</title>
+<defs><marker id="ar2" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--md-on-surface-variant)"/></marker></defs>
+<g font-family="ui-sans-serif,system-ui,sans-serif" font-size="11">
+<rect x="20" y="100" width="160" height="60" rx="12" fill="var(--md-primary-container)"/>
+<text x="100" y="124" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-primary-container)">Ignition Tag</text>
+<text x="100" y="144" text-anchor="middle" font-size="10" fill="var(--md-on-primary-container)" opacity="0.78">temperature · pressure · state</text>
+<g stroke="var(--md-on-surface-variant)" stroke-width="1.4" fill="none">
+<path d="M180 116 L262 80" marker-end="url(#ar2)"/>
+<path d="M262 90 L180 126" marker-end="url(#ar2)"/>
+</g>
+<rect x="262" y="40" width="200" height="60" rx="12" fill="var(--md-surface-container-high)" stroke="var(--md-outline-variant)"/>
+<text x="362" y="64" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-surface)">SDK Module (Java)</text>
+<text x="362" y="82" text-anchor="middle" font-size="10" fill="var(--md-on-surface-variant)">component descriptors · prop schema</text>
+<g stroke="var(--md-on-surface-variant)" stroke-width="1.4" fill="none">
+<path d="M180 144 L262 180" marker-end="url(#ar2)"/>
+<path d="M262 170 L180 134" marker-end="url(#ar2)"/>
+</g>
+<rect x="262" y="158" width="200" height="60" rx="12" fill="var(--md-surface-container-high)" stroke="var(--md-outline-variant)"/>
+<text x="362" y="182" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-surface)">React + Three.js</text>
+<text x="362" y="200" text-anchor="middle" font-size="10" fill="var(--md-on-surface-variant)">runtime · property bindings</text>
+<path d="M462 130 L528 130" stroke="var(--md-on-surface-variant)" stroke-width="1.5" fill="none" marker-end="url(#ar2)"/>
+<rect x="528" y="44" width="252" height="172" rx="14" fill="var(--md-tertiary-container)"/>
+<text x="544" y="64" font-size="9" font-weight="600" letter-spacing="0.12em" fill="var(--md-on-tertiary-container)">3D SCENE</text>
+<g transform="translate(594 88)">
+<path d="M50 60 L90 40 L130 60 L130 110 L90 130 L50 110 Z" fill="var(--md-tertiary)" opacity="0.55"/>
+<path d="M50 60 L90 40 L130 60 L90 80 Z" fill="var(--md-tertiary)" opacity="0.85"/>
+<path d="M50 60 L90 80 L90 130 L50 110 Z" fill="var(--md-tertiary)" opacity="0.5"/>
+<path d="M130 60 L130 110 L90 130 L90 80 Z" fill="var(--md-tertiary)" opacity="0.7"/>
+<circle cx="90" cy="60" r="7" fill="var(--md-primary)"/>
+<circle cx="90" cy="60" r="3" fill="var(--md-on-primary)"/>
+</g>
+<text x="654" y="200" text-anchor="middle" font-size="10" fill="var(--md-on-tertiary-container)" opacity="0.85">live tag → mesh property</text>
+</g></svg>`;
+
+const DIAGRAM_SCADA = `<svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dc-d"><title id="dc-d">Multi-site SCADA: UPS, HVAC and generators connect via Modbus/BACnet/SNMP through Ignition gateways to a unified operator view, organized by Purdue Model levels.</title>
+<g font-family="ui-sans-serif,system-ui,sans-serif" font-size="11">
+<rect x="20" y="20" width="760" height="44" rx="10" fill="var(--md-primary)"/>
+<text x="40" y="48" font-weight="600" font-size="13" fill="var(--md-on-primary)">L3 · Operator View</text>
+<text x="760" y="48" text-anchor="end" font-size="10" fill="var(--md-on-primary)" opacity="0.86">Perspective · unified across sites</text>
+<line x1="220" y1="64" x2="220" y2="84" stroke="var(--md-outline)" stroke-width="1.2"/>
+<line x1="400" y1="64" x2="400" y2="84" stroke="var(--md-outline)" stroke-width="1.2"/>
+<line x1="580" y1="64" x2="580" y2="84" stroke="var(--md-outline)" stroke-width="1.2"/>
+<text x="40" y="112" font-size="11" font-weight="600" letter-spacing="0.08em" fill="var(--md-on-surface-variant)">L2</text>
+<rect x="120" y="84" width="200" height="44" rx="10" fill="var(--md-primary-container)"/>
+<text x="220" y="111" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-primary-container)">Ignition Gateway · Site 1</text>
+<rect x="300" y="84" width="200" height="44" rx="10" fill="var(--md-primary-container)"/>
+<text x="400" y="111" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-primary-container)">Ignition Gateway · Site 2</text>
+<rect x="480" y="84" width="200" height="44" rx="10" fill="var(--md-primary-container)"/>
+<text x="580" y="111" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-primary-container)">Ignition Gateway · Site 3</text>
+<line x1="100" y1="146" x2="700" y2="146" stroke="var(--md-outline-variant)" stroke-width="1.2" stroke-dasharray="4 4"/>
+<text x="40" y="150" font-size="11" font-weight="600" letter-spacing="0.08em" fill="var(--md-on-surface-variant)">L1</text>
+<text x="400" y="142" text-anchor="middle" font-size="10" font-weight="600" letter-spacing="0.18em" fill="var(--md-on-surface-variant)">MODBUS · BACNET · SNMP</text>
+<text x="40" y="204" font-size="11" font-weight="600" letter-spacing="0.08em" fill="var(--md-on-surface-variant)">L0</text>
+<rect x="120" y="170" width="160" height="64" rx="12" fill="var(--md-secondary-container)"/>
+<text x="200" y="196" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-secondary-container)">UPS Array</text>
+<text x="200" y="216" text-anchor="middle" font-size="10" fill="var(--md-on-secondary-container)" opacity="0.78">load · runtime · alarms</text>
+<rect x="300" y="170" width="200" height="64" rx="12" fill="var(--md-secondary-container)"/>
+<text x="400" y="196" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-secondary-container)">HVAC / CRAC</text>
+<text x="400" y="216" text-anchor="middle" font-size="10" fill="var(--md-on-secondary-container)" opacity="0.78">temp · humidity · airflow</text>
+<rect x="520" y="170" width="160" height="64" rx="12" fill="var(--md-secondary-container)"/>
+<text x="600" y="196" text-anchor="middle" font-weight="600" font-size="12" fill="var(--md-on-secondary-container)">Generators</text>
+<text x="600" y="216" text-anchor="middle" font-size="10" fill="var(--md-on-secondary-container)" opacity="0.78">fuel · status · ATS</text>
+<rect x="20" y="252" width="760" height="18" rx="6" fill="none" stroke="var(--md-outline-variant)" stroke-dasharray="2 3"/>
+<text x="400" y="265" text-anchor="middle" font-size="10" letter-spacing="0.08em" fill="var(--md-on-surface-variant)">Purdue-aligned · network segmentation · OT hardening</text>
+</g></svg>`;
+
+/* ───────────────── bilingual content ───────────────── */
+
 const CONTENT = {
   en: {
     locale: "EN",
@@ -8,9 +119,14 @@ const CONTENT = {
       availability: "Industrial software · IIoT · SCADA",
       altLang: "Español",
       altLangCode: "es",
+      themeLight: "Light",
+      themeDark: "Dark",
+      themeAuto: "Auto",
+      themeToggleLabel: "Theme",
     },
     nav: [
       { id: "work", label: "Work" },
+      { id: "opensource", label: "Open Source" },
       { id: "about", label: "About" },
       { id: "experience", label: "Experience" },
       { id: "skills", label: "Skills" },
@@ -74,6 +190,9 @@ const CONTENT = {
             "Built a controlled OTA workflow so field equipment updates without truck rolls.",
             "Structured the platform for multi-tenant operation, making customer onboarding a configuration task — not a project.",
           ],
+          diagram: DIAGRAM_RMS,
+          diagramCaption:
+            "ESP32 devices ship compressed MQTT payloads to a broker. The Ignition gateway handles tag history and multi-tenant access; operators consume everything in Perspective.",
         },
         {
           id: "perspective3d",
@@ -92,6 +211,9 @@ const CONTENT = {
             "Enabled modern operator UX in industrial environments using familiar web tooling.",
             "Opened the door to richer contextual monitoring, layout views, and scenario interfaces.",
           ],
+          diagram: DIAGRAM_P3D,
+          diagramCaption:
+            "The Java SDK module declares component props inside Ignition. A React + Three.js runtime renders the scene, and live tag values drive mesh transforms bidirectionally.",
         },
         {
           id: "scada-dc",
@@ -110,11 +232,49 @@ const CONTENT = {
             "Applied Purdue Model thinking and server hardening for reliable OT operation.",
             "Improved decision-making through consistent visibility across distributed sites.",
           ],
+          diagram: DIAGRAM_SCADA,
+          diagramCaption:
+            "Field equipment exposes Modbus, BACnet and SNMP to per-site Ignition gateways. Gateway data converges into a single L3 operator view, aligned to the Purdue Model.",
+        },
+      ],
+    },
+    opensource: {
+      kicker: "03 — Open Source",
+      title: "Code I share publicly.",
+      lead:
+        "Small utilities, experiments, and notes from the industrial trenches. Replace the placeholders below with real repos when published.",
+      cta: "View on GitHub",
+      ctaAll: "All repos on GitHub →",
+      ctaAllHref: "https://github.com/efmena1",
+      repos: [
+        {
+          name: "ignition-binary-payload",
+          description:
+            "Reference design and Jython helpers for compact binary MQTT payloads in Ignition. Cuts cellular data ~90% versus JSON.",
+          stack: ["Ignition", "Jython", "MQTT"],
+          href: "https://github.com/efmena1",
+          meta: "Library · WIP",
+        },
+        {
+          name: "esp32-ota-template",
+          description:
+            "Opinionated ESP-IDF starter for OTA-capable industrial devices: FreeRTOS tasks, MQTT/TLS, signed updates, rollback.",
+          stack: ["ESP-IDF", "FreeRTOS", "C"],
+          href: "https://github.com/efmena1",
+          meta: "Template",
+        },
+        {
+          name: "perspective-3d-demo",
+          description:
+            "Stand-alone Three.js + React demo showing how live Ignition tags can drive 3D scene properties via the SDK pattern.",
+          stack: ["React", "Three.js", "Ignition SDK"],
+          href: "https://github.com/efmena1",
+          meta: "Demo",
         },
       ],
     },
     experience: {
-      kicker: "03 — Experience",
+      kicker: "04 — Experience",
       title: "Hands-on engineering with leadership and product ownership.",
       roles: [
         {
@@ -146,7 +306,7 @@ const CONTENT = {
       ],
     },
     skills: {
-      kicker: "04 — Capabilities",
+      kicker: "05 — Capabilities",
       title: "Industrial depth meets modern software delivery.",
       groups: [
         {
@@ -209,7 +369,7 @@ const CONTENT = {
       certsLabel: "Credentials",
     },
     contact: {
-      kicker: "05 — Contact",
+      kicker: "06 — Contact",
       title: "Let's talk industrial software.",
       lead:
         "Happy to chat about Ignition, IIoT architecture, SCADA integration, or modern industrial UX. Drop a note any time.",
@@ -230,6 +390,8 @@ const CONTENT = {
       role: "Role",
       impact: "Impact",
       stack: "Stack",
+      diagram: "Architecture",
+      diagramAlt: "Architecture diagram",
     },
   },
 
@@ -241,9 +403,14 @@ const CONTENT = {
       availability: "Software industrial · IIoT · SCADA",
       altLang: "English",
       altLangCode: "en",
+      themeLight: "Claro",
+      themeDark: "Oscuro",
+      themeAuto: "Auto",
+      themeToggleLabel: "Tema",
     },
     nav: [
       { id: "work", label: "Proyectos" },
+      { id: "opensource", label: "Open Source" },
       { id: "about", label: "Sobre mí" },
       { id: "experience", label: "Experiencia" },
       { id: "skills", label: "Capacidades" },
@@ -307,6 +474,9 @@ const CONTENT = {
             "Flujo OTA controlado para actualizar equipos de campo sin visitas presenciales.",
             "Plataforma estructurada para operación multi-tenant: onboarding de clientes como configuración, no como proyecto.",
           ],
+          diagram: DIAGRAM_RMS,
+          diagramCaption:
+            "Los dispositivos ESP32 envían payloads MQTT comprimidos al broker. El gateway de Ignition gestiona historial de tags y acceso multi-tenant; los operadores consumen todo en Perspective.",
         },
         {
           id: "perspective3d",
@@ -325,6 +495,9 @@ const CONTENT = {
             "Habilité UX moderna para operadores industriales usando herramientas web familiares.",
             "Abrí la puerta a monitoreo contextual más rico, vistas de layout e interfaces por escenario.",
           ],
+          diagram: DIAGRAM_P3D,
+          diagramCaption:
+            "El módulo SDK en Java declara las props del componente dentro de Ignition. Un runtime de React + Three.js renderiza la escena, y los valores de los tags en vivo controlan las transformaciones del mesh en ambos sentidos.",
         },
         {
           id: "scada-dc",
@@ -343,11 +516,49 @@ const CONTENT = {
             "Aplicación del Modelo Purdue y hardening de servidores para operación OT confiable.",
             "Mejor toma de decisiones por visibilidad consistente entre sitios distribuidos.",
           ],
+          diagram: DIAGRAM_SCADA,
+          diagramCaption:
+            "Los equipos de campo exponen Modbus, BACnet y SNMP a gateways Ignition por sitio. Los datos convergen en una sola vista de operador en L3, alineada al Modelo Purdue.",
+        },
+      ],
+    },
+    opensource: {
+      kicker: "03 — Open Source",
+      title: "Código que comparto públicamente.",
+      lead:
+        "Pequeñas utilidades, experimentos y notas desde la trinchera industrial. Reemplaza los placeholders cuando publiques los repos reales.",
+      cta: "Ver en GitHub",
+      ctaAll: "Todos los repos en GitHub →",
+      ctaAllHref: "https://github.com/efmena1",
+      repos: [
+        {
+          name: "ignition-binary-payload",
+          description:
+            "Diseño de referencia y helpers en Jython para payloads MQTT binarios compactos en Ignition. Reduce ~90% el consumo celular frente a JSON.",
+          stack: ["Ignition", "Jython", "MQTT"],
+          href: "https://github.com/efmena1",
+          meta: "Librería · WIP",
+        },
+        {
+          name: "esp32-ota-template",
+          description:
+            "Starter opinado de ESP-IDF para dispositivos industriales con OTA: tareas FreeRTOS, MQTT/TLS, updates firmados y rollback.",
+          stack: ["ESP-IDF", "FreeRTOS", "C"],
+          href: "https://github.com/efmena1",
+          meta: "Plantilla",
+        },
+        {
+          name: "perspective-3d-demo",
+          description:
+            "Demo standalone de Three.js + React que muestra cómo tags de Ignition en vivo pueden controlar propiedades de una escena 3D vía el patrón SDK.",
+          stack: ["React", "Three.js", "Ignition SDK"],
+          href: "https://github.com/efmena1",
+          meta: "Demo",
         },
       ],
     },
     experience: {
-      kicker: "03 — Experiencia",
+      kicker: "04 — Experiencia",
       title: "Ingeniería hands-on con liderazgo y ownership de producto.",
       roles: [
         {
@@ -379,7 +590,7 @@ const CONTENT = {
       ],
     },
     skills: {
-      kicker: "04 — Capacidades",
+      kicker: "05 — Capacidades",
       title: "Profundidad industrial con entrega de software moderna.",
       groups: [
         {
@@ -442,7 +653,7 @@ const CONTENT = {
       certsLabel: "Credenciales",
     },
     contact: {
-      kicker: "05 — Contacto",
+      kicker: "06 — Contacto",
       title: "Hablemos de software industrial.",
       lead:
         "Encantado de conversar sobre Ignition, arquitectura IIoT, integración SCADA o UX industrial moderna. Escíbeme cuando quieras.",
@@ -463,6 +674,8 @@ const CONTENT = {
       role: "Rol",
       impact: "Impacto",
       stack: "Stack",
+      diagram: "Arquitectura",
+      diagramAlt: "Diagrama de arquitectura",
     },
   },
 };
